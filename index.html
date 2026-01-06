@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Keeper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">System prompt library</p>
+        <h1>Prompt Keeper</h1>
+        <p class="subtitle">Save, refine, and reuse your system prompts with a focused dark UI.</p>
+      </div>
+      <div class="active-panel" id="active-panel">
+        <p class="eyebrow">Active prompt</p>
+        <h2 id="active-title">None selected</h2>
+        <p id="active-body" class="muted">Choose a prompt and select “Use” to stage it for your next session.</p>
+        <div class="panel-actions">
+          <button class="ghost" id="copy-active" disabled>Copy</button>
+          <button class="ghost" id="clear-active" disabled>Clear</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="grid">
+        <article class="card form-card">
+          <div class="card-header">
+            <div>
+              <p class="eyebrow">New prompt</p>
+              <h3 id="form-title">Add a system prompt</h3>
+            </div>
+            <div class="chip" id="editing-chip" hidden>Editing</div>
+          </div>
+          <form id="prompt-form" novalidate>
+            <label class="field">
+              <span>Title</span>
+              <input id="title" name="title" type="text" placeholder="e.g. Friendly code reviewer" required maxlength="80" />
+              <small class="hint">80 characters max</small>
+            </label>
+            <label class="field">
+              <span>Summary</span>
+              <input id="summary" name="summary" type="text" placeholder="Optional short note" maxlength="120" />
+            </label>
+            <label class="field">
+              <span>System prompt</span>
+              <textarea id="body" name="body" rows="6" placeholder="Write the instructions you want to reuse" required></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="primary" id="submit-button">Save prompt</button>
+              <button type="button" class="ghost" id="reset-button">Reset</button>
+            </div>
+            <p class="status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="card list-card">
+          <div class="list-header">
+            <div>
+              <p class="eyebrow">Library</p>
+              <h3>Saved prompts</h3>
+            </div>
+            <label class="search">
+              <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14Z" fill="currentColor"/>
+              </svg>
+              <input id="search" type="search" placeholder="Search prompts" aria-label="Search prompts" />
+            </label>
+          </div>
+          <div id="prompt-list" class="prompt-list" aria-live="polite"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <template id="prompt-card-template">
+    <div class="prompt-card">
+      <div class="prompt-top">
+        <div>
+          <div class="title-row">
+            <h4 class="prompt-title"></h4>
+            <span class="tag" data-tag>New</span>
+          </div>
+          <p class="prompt-summary"></p>
+        </div>
+        <div class="prompt-actions">
+          <button class="ghost sm" data-action="use">Use</button>
+          <button class="ghost sm" data-action="copy">Copy</button>
+        </div>
+      </div>
+      <p class="prompt-body"></p>
+      <div class="prompt-meta">
+        <span data-updated></span>
+        <div class="prompt-meta-actions">
+          <button class="ghost sm" data-action="edit">Edit</button>
+          <button class="ghost sm danger" data-action="delete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
